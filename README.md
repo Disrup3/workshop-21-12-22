@@ -1,20 +1,4 @@
-<p align="center">
-  <a href="https://github.com/Disrup3/workshop-21-12-22/stargazers">
-    <img alt="Stargazers" src="https://img.shields.io/github/stars/viral-sangani/coding-challenge-2021.svg?style=for-the-badge"/>
-  </a>
-  <a href="https://github.com/Disrup3/workshop-21-12-22/network/members">
-    <img alt="Forks" src="https://img.shields.io/github/forks/viral-sangani/coding-challenge-2021.svg?style=for-the-badge"/>
-  </a>
-  <a href="https://github.com/Disrup3/workshop-21-12-22/graphs/contributors">
-    <img alt="Contributors" src="https://img.shields.io/github/contributors/viral-sangani/coding-challenge-2021.svg?style=for-the-badge"/>
-  </a>
-  <a href="https://github.com/Disrup3/workshop-21-12-22/issues">
-    <img alt="Issues" src="https://img.shields.io/github/issues/viral-sangani/coding-challenge-2021.svg?style=for-the-badge"/>
-  </a>
-  <a href="https://github.com/Disrup3/workshop-21-12-22/">
-    <img alt="MIT License" src="https://img.shields.io/github/license/manaspratap/ARVideoBrowser.svg?style=for-the-badge"/>
-  </a>
-</p>
+
 
 <a href="https://disrup3.com"  align="center">
 
