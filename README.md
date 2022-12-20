@@ -30,7 +30,7 @@
 
 ## Sobre el proyecto
 
-DApp de donación para premiar o apoyar a través de donaciones en cryptos a creadores de contenido.
+DApp de donación para premiar o apoyar con web3 a creadores de contenido.
 
 ## Tech stack and libraries
 - Solidity
