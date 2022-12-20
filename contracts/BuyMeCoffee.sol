@@ -26,7 +26,7 @@ contract BuyMeCoffee {
     }
 
     modifier validateIdCoffees(uint256 _id) {
-        require(_id > 0 && _id <= ClientCount, "Id: not fount");
+        require(_id > 0 && _id <= ClientCount, "Id: not found");
         _;
     }
 
@@ -34,8 +34,8 @@ contract BuyMeCoffee {
         string memory _ulrImg,
         string memory _description
     ) {
-        require(bytes(_description).length > 0, "description not is null");
-        require(bytes(_ulrImg).length > 0, "Image URl not is null");
+        require(bytes(_description).length > 0, "description is null");
+        require(bytes(_ulrImg).length > 0, "Image URL is null");
         _;
     }
 
