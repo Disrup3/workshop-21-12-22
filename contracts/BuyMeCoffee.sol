@@ -61,8 +61,8 @@ contract BuyMeCoffee {
         Client memory _Client = Coffees[_id];
         address payable _user = _Client.wallet;
         Coffees[_id].tipAmount += msg.value;
-        AmountTotal = AmountTotal + msg.value;
-        TotalDonatedUser[_user] += msg.value;
+        AmountTotal = AmountTotal + msg.value; // forma 1
+        TotalDonatedUser[msg.sender] += msg.value; // forma 2
         transferEth(_user, msg.value);
         emit CoffeesTipped(_id, _Client.tipAmount);
     }
@@ -97,8 +97,8 @@ contract BuyMeCoffee {
             wallet
         );
         Coffees.push(_Client);
-        ClientCount++;
         emit ClientCreated(ClientCount,  _name, _description, _ulrImg, wallet);
+        ClientCount++;
     }
 
     function EditUser(
