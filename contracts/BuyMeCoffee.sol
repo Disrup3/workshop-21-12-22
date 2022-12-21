@@ -35,9 +35,11 @@ contract BuyMeCoffee {
     }
 
     modifier validateStrings(
-        string memory _ulrImg,
-        string memory _description
+        string memory _name,
+        string memory _description,
+        string memory _ulrImg
     ) {
+        require(bytes(_name).length > 0, "name is null");
         require(bytes(_description).length > 0, "description is null");
         require(bytes(_ulrImg).length > 0, "Image URL is null");
         _;
@@ -67,7 +69,7 @@ contract BuyMeCoffee {
 
     //------- INTERNAL -------
     function transferEth(address _to, uint256 amount) internal {
-        require(amount >= 0);
+        require(amount > 0);
         (bool success, ) = _to.call{value: amount}("");
         require(success, "something went wrong");
     }
@@ -84,7 +86,7 @@ contract BuyMeCoffee {
         string memory _description,
         string memory _ulrImg,
         address payable wallet
-    ) public onlyOwner validateStrings(_ulrImg, _description) {
+    ) public onlyOwner validateStrings(_name, _description, _ulrImg) {
         require(wallet != address(0x0));
         Client memory _Client = Client(
             ClientCount,
@@ -109,7 +111,7 @@ contract BuyMeCoffee {
     public
     validateIdCoffees(_id)
     onlyOwner
-    validateStrings(_ulrImg, _description)
+    validateStrings(_name, _description, _ulrImg)
     {
         require(wallet != address(0x0));
         Coffees[_id] = Client(
