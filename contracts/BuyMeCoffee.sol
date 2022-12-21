@@ -4,16 +4,20 @@ pragma solidity ^0.8.9;
 contract BuyMeCoffee {
     address public owner;
     uint256 public ClientCount = 0;
+    uint256 public AmountTotal = 0;
+
+    Client[] public Coffees;
 
     struct Client {
         uint256 id;
-        string ulrImg;
+        string name;
         string description;
+        string ulrImg;
         uint256 tipAmount;
         address payable wallet;
     }
 
-    mapping(uint256 => Client) public Coffees;
+    mapping(address => uint256) public TotalDonatedUser;
 
     constructor() {
         owner = msg.sender;
@@ -26,7 +30,7 @@ contract BuyMeCoffee {
     }
 
     modifier validateIdCoffees(uint256 _id) {
-        require(_id > 0 && _id <= ClientCount, "Id: not found");
+        require(_id < ClientCount, "Id: not found");
         _;
     }
 
@@ -42,8 +46,9 @@ contract BuyMeCoffee {
     //------ EVENTS ------
     event ClientCreated(
         uint256 indexed userId,
-        string ulrImg,
+        string _name,
         string _description,
+        string ulrImg,
         address payable wallet
     );
 
@@ -54,8 +59,9 @@ contract BuyMeCoffee {
         Client memory _Client = Coffees[_id];
         address payable _user = _Client.wallet;
         Coffees[_id].tipAmount += msg.value;
+        AmountTotal = AmountTotal + msg.value;
+        TotalDonatedUser[_user] += msg.value;
         transferEth(_user, msg.value);
-
         emit CoffeesTipped(_id, _Client.tipAmount);
     }
 
@@ -66,44 +72,55 @@ contract BuyMeCoffee {
         require(success, "something went wrong");
     }
 
+    //------- VIEW FUNCTIONS -------
+
+    function getCoffeesList() public view returns (Client[] memory) {
+        return Coffees;
+    }
+
     //------- ADMIN FUNCTIONS -----------
     function CreateUser(
-        string memory _ulrImg,
+        string memory _name,
         string memory _description,
+        string memory _ulrImg,
         address payable wallet
     ) public onlyOwner validateStrings(_ulrImg, _description) {
         require(wallet != address(0x0));
-        ClientCount++;
-        Coffees[ClientCount] = Client(
+        Client memory _Client = Client(
             ClientCount,
-            _ulrImg,
+            _name,
             _description,
+            _ulrImg,
             0,
             wallet
         );
-        emit ClientCreated(ClientCount, _ulrImg, _description, wallet);
+        Coffees.push(_Client);
+        ClientCount++;
+        emit ClientCreated(ClientCount,  _name, _description, _ulrImg, wallet);
     }
 
     function EditUser(
-        string memory _ulrImg,
+        string memory _name,
         string memory _description,
+        string memory _ulrImg,
         address payable wallet,
         uint256 _id
     )
-        public
-        validateIdCoffees(_id)
-        onlyOwner
-        validateStrings(_ulrImg, _description)
+    public
+    validateIdCoffees(_id)
+    onlyOwner
+    validateStrings(_ulrImg, _description)
     {
         require(wallet != address(0x0));
         Coffees[_id] = Client(
             _id,
-            _ulrImg,
+            _name,
             _description,
+            _ulrImg,
             Coffees[_id].tipAmount,
             wallet
         );
-        emit ClientCreated(ClientCount, _ulrImg, _description, wallet);
+        emit ClientCreated(ClientCount, _name, _description, _ulrImg, wallet);
     }
 
     function transferOwnership(address newOwner) public onlyOwner {
